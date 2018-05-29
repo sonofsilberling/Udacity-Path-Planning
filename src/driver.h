@@ -102,8 +102,10 @@ protected:
 
 	/**
 	 * @brief Check collisions on trajectory candidates
+	 *
+	 * s_gap_min: minimum gap for a car to be considered
 	 */
-	bool check_collisions();
+	bool check_collisions(int s_gap_min);
 
 	double get_cost_position(std::vector<double>& coefficients, double& T, double& target_position);
 	double get_cost_velocity(std::vector<double>& coefficients, double& T, double& target_velocity);

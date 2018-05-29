@@ -103,8 +103,24 @@ bool Driver::decide() {
 		return false;
 
 	// Collision check: find lowest cost trajectory with no collision
-	if (!check_collisions())
-		return false;
+	if (!check_collisions(-100)) {
+		// If no collision free trajectory can be found
+		// Check only cars ahead. It might be that a car just came up from behind
+		if (!check_collisions(-1)) {
+			// There is no collision free trajectory
+			// In this case take lowest cost trajectory that stays in the lane
+			// Better than giving up is to try and move forward a little bit and hope that next cycle
+			// the situation will have improved
+			// This happens if a vehicle pulls in right in front of ego vehicle
+			for (CombinedTrajectory& trajectory : trajectory_candidates) {
+				if (trajectory.lane == vehicle.lane) {
+					trajectory.feasible = true;
+					break;
+				}
+			}
+			
+		}
+	}
 
 	#ifdef LOG
 	int n_counter = 0;
@@ -128,11 +144,11 @@ bool Driver::decide() {
 				LOG(INFO) << "Decision: swith from lane " << vehicle.lane << " to " << trajectory.lane;
 			#endif
 			vehicle.set_trajectory(trajectory);
-			break;
+			return true;
 		}
 	}
 
-	return true;
+	return false;
 }
 
 /**
@@ -141,32 +157,34 @@ bool Driver::decide() {
  * NOTE: trajectory candidates assumed to be sorted by cost ascending, i.e. checks lowest cost trajectory first
  *       trajectories all assumed to be set to feasible = true
  */
-bool Driver::check_collisions() {
+bool Driver::check_collisions(int s_gap_min) {
 	#ifdef TRACE 
-	std::cout << "__Driver::check_collisions__" << std::endl;
+		std::cout << "__Driver::check_collisions__" << std::endl;
 	#endif
 	std::map<Lane, std::vector<ObservedVehicle>>::iterator it_lane;
 	std::vector<ObservedVehicle>::iterator it_vehicle;
 
 	for (CombinedTrajectory& trajectory : trajectory_candidates) {
-		// iterate through all observed vehicles on road
-		it_lane = road.vehicles.begin();
-		while (trajectory.feasible & it_lane != road.vehicles.end()) {
+	// iterate through all observed vehicles on road
+		trajectory.feasible = true;
+		it_lane = road.vehicles_ahead.begin();
+		while (trajectory.feasible & it_lane != road.vehicles_ahead.end()) {
 			it_vehicle = it_lane->second.begin();
 
 			while (trajectory.feasible & it_vehicle != it_lane->second.end()) {
 				// For for a maximum of 1 seconds into the future
-				trajectory.feasible = !(it_vehicle->is_collision(0, std::min(1.0, trajectory.T), trajectory.coefficients_s, trajectory.coefficients_d));
+				if (it_vehicle->s_gap >= s_gap_min)
+					trajectory.feasible = trajectory.feasible && !(it_vehicle->is_collision(0, std::min(1.0, trajectory.T), trajectory.coefficients_s, trajectory.coefficients_d));
 				++it_vehicle;
 			}
 			++it_lane;
 		}
-		// Feasible trajectory found? If so return, no need to check for further collisions
+	// Feasible trajectory found? If so return, no need to check for further collisions
 		if (trajectory.feasible)
 			return true;
 	}
 
-	// No feasible trajectory found
+// No feasible trajectory found
 	return false;
 }
 
@@ -281,6 +299,7 @@ bool Driver::generate_trajectories() {
 			target_lanes = {center, right};
 			break;
 			}
+			// target_lanes = {left, czenter, right};
 		}
 	}
 

@@ -9,3 +9,10 @@ In this project your goal is to safely navigate around a virtual highway with ot
 The project implements the goals based on the work of Werling et al. and plans completely in a Frenet space by generating trajectories for velocity keeping (no vehicle ahead) or position (vehicle ahead), and selecting the best via a cost function.
 
 ![Simulator Screenshot](https://github.com/sonofsilberling/Udacity-Path-Planning/blob/master/screenshot.jpg)
+
+The ego vehicle has a preference for driving in the center lane by weighting costs for each lane, and it has a preference to follow a velocity keeping trajectory, i.e. driving in a lane without a vehicle ahead.
+
+
+### Observation
+Most effort in implementing the project was not with the approach on handling trajectories or calibrating the cost function, which still has scope to improve.
+Most effort was in dealing with the simulator and its waypoints. In the end, the project uses the waypoints to generate a single spline along the path, and the only two values coming back from the simulator for the ego vehicle are the initial s and d coordinates, which quickly get smoothed into the generated spline - hence the initial "flicker" of the ego vehicle.

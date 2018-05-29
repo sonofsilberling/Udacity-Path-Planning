@@ -47,7 +47,7 @@ bool Road::observe(Vehicle& ego_vehicle, std::vector<std::vector<double>>& obser
 		// Only update if
 		// - the vehicle is close enough ahead or behind to be relevant 
 		// - the vehicle is actually on the road and in a lane
-		if (vehicle.s_gap < 99 & vehicle.s_gap > -60) {
+		if (vehicle.s_gap < 60 & vehicle.s_gap > -30) {
 		// if (vehicle.s_ref > 0) {
 				#ifdef DEBUG
 				vehicle_count++;
