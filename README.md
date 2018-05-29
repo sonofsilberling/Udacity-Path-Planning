@@ -6,6 +6,6 @@ In this project your goal is to safely navigate around a virtual highway with ot
 
 
 ### Implementation
-The project implements the goals based on the work of Werling et al. and plans completely in a Frenet space by generating trajectories and selecting the best via a cost function.
+The project implements the goals based on the work of Werling et al. and plans completely in a Frenet space by generating trajectories for velocity keeping (no vehicle ahead) or position (vehicle ahead), and selecting the best via a cost function.
 
 ![Simulator Screenshot](https://github.com/sonofsilberling/Udacity-Path-Planning/blob/master/screenshot "Screenshot")
