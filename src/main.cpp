@@ -105,18 +105,9 @@ int main(int argc, char* argv[]) {
             if (driver.observe(sensor_fusion, true)) {
               // Make a decision
               if (driver.decide()) {
-                #ifdef DEBUG
-                std::cout << "Found a good trajectory!!!!" << std::endl;
-                #endif
                 // Execute decision and output result
                 driver.vehicle.drive();
               }
-
-              #ifdef LOG
-              else {
-                LOG(INFO) << "NO(!) good trajectory!!!!" << std::endl;
-              }
-              #endif
             }
           }
 

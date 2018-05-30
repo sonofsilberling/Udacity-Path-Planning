@@ -299,7 +299,6 @@ bool Driver::generate_trajectories() {
 			target_lanes = {center, right};
 			break;
 			}
-			// target_lanes = {left, center, right};
 		}
 	}
 
