@@ -290,14 +290,14 @@ bool Driver::generate_trajectories() {
 		else {
 			switch (vehicle.lane) {
 				case left:
-			target_lanes = {left, center};
-			break;
+					target_lanes = {left, center};
+					break;
 				case center:
-			target_lanes = {left, center, right};
-			break;
+					target_lanes = {left, center, right};
+					break;
 				case right:
-			target_lanes = {center, right};
-			break;
+					target_lanes = {center, right};
+					break;
 			}
 		}
 	}
