@@ -52,7 +52,7 @@ public:
 	 */
 	std::map<int, double> lane_weights =  {
 		{0, 1.0},
-		{1, 0.8}, // Lower weight to center lane
+		{1, 0.85}, // Lower weight to center lane
 		{2, 1.0},
 	};
 

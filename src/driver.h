@@ -57,7 +57,7 @@ public:
 	 *        Most likely times are between 3s and 6s, hence smaller steps in that range
 	 *
 	 */	
-	std::vector<double> target_times = {3.0, 3.5, 3.7, 4, 4.2, 4.5, 5, 5.5, 6.0, 7.0};	
+	std::vector<double> target_times = {1.0, 2.0, 3.0, 3.5, 3.7, 4, 4.2, 4.5, 5.0, 7.0, 10.0};	
 
 protected:
 	/**

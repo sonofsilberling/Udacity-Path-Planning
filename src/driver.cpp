@@ -106,7 +106,7 @@ bool Driver::decide() {
 	if (!check_collisions(-100)) {
 		// If no collision free trajectory can be found
 		// Check only cars ahead. It might be that a car just came up from behind
-		if (!check_collisions(-1)) {
+		if (!check_collisions(-VEHICLE_LENGTH)) {
 			// There is no collision free trajectory
 			// In this case take lowest cost trajectory that stays in the lane
 			// Better than giving up is to try and move forward a little bit and hope that next cycle
@@ -299,7 +299,7 @@ bool Driver::generate_trajectories() {
 			target_lanes = {center, right};
 			break;
 			}
-			// target_lanes = {left, czenter, right};
+			// target_lanes = {left, center, right};
 		}
 	}
 
