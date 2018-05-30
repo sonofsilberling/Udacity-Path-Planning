@@ -13,6 +13,14 @@ The project implements the goals based on the work of Werling et al. and plans c
 The ego vehicle has a preference for driving in the center lane by weighting costs for each lane, and it has a preference to follow a velocity keeping trajectory, i.e. driving in a lane without a vehicle ahead.
 
 
+### Structure
+
+The structure of the project can be broken into the following parts:
+- the driver (the behavior module) observes the road by identifying vehicles
+- the driver generates possible trajectories, dismisses "bad" ones and selects the best of the remaining ones
+- the driver asks the ego vehicle to execute (drive) the selected trajectory
+- the ego vehicle executes the trajectory (drives) by calculating waypoints ahead and asks the navigator to translate it into cartesian coordinates for the simulator
+
 ### Observation
 Most effort in implementing the project was not with the approach on handling trajectories or calibrating the cost function, which still has scope to improve.
 Most effort was in dealing with the simulator and its waypoints. In the end, the project uses the waypoints to generate a single spline along the path, and the only two values coming back from the simulator for the ego vehicle are the initial s and d coordinates, which quickly get smoothed into the generated spline - hence the initial "flicker" of the ego vehicle.
